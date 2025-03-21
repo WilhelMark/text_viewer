@@ -21,19 +21,12 @@ int main() {
     char buffer[bufferSize];
 
     // Читаем и выводим содержимое файла по фрагментам
-    while (true) {
-        file.read(buffer, bufferSize);
-        size_t bytesRead = file.gcount(); // Количество прочитанных байт
-
-        // Если файл закончился, выходим из цикла
-        if (bytesRead == 0) {
-            break;
-        }
+    while (!file.eof()) {
+        file.read(buffer, bufferSize - 1); // Оставляем место для '\0'
+        buffer[file.gcount()] = '\0'; // Добавляем конец строки для std::cout
 
         // Выводим прочитанный фрагмент
-        for (size_t i = 0; i < bytesRead; ++i) {
-            std::cout << buffer[i];
-        }
+        std::cout << buffer;
     }
 
     // Закрываем файл
